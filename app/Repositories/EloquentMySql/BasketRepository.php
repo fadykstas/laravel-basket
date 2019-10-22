@@ -4,6 +4,7 @@ namespace App\Repositories\EloquentMySql;
 
 
 use App\Entities\Basket;
+use App\Entities\Item;
 use App\Repositories\Contracts\BasketRepositoryInterface;
 use Illuminate\Support\Collection;
 
@@ -40,6 +41,31 @@ class BasketRepository implements BasketRepositoryInterface
     {
         $basket->contents()->delete();
         $basket->save();
+        return $basket;
+    }
+
+    public function getBasketItemsWeight(Basket $basket): int
+    {
+        return $basket->contents()->sum('weight');
+    }
+
+
+    public function addItemsToBasket(Basket $basket, Item ...$items): Basket
+    {
+        Collection::make($items)->each(function (Item $itemNew) use ($basket){
+            $itemOld = $basket->contents()->get()->filter(function (Item $itemOld) use ($itemNew) {
+                return $itemOld->type == $itemNew->type;
+            })->first();
+            if ($itemOld) {
+                $itemOld->weight = $itemOld->weight + $itemNew->weight;
+                $itemOld->save();
+            } else {
+                $basket->contents()->save($itemNew);
+                $itemNew->save();
+            }
+        });
+        $basket->save();
+
         return $basket;
     }
 }
