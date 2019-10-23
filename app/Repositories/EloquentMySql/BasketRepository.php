@@ -61,10 +61,15 @@ class BasketRepository implements BasketRepositoryInterface
                 $itemOld->save();
             } else {
                 $basket->contents()->save($itemNew);
-                $itemNew->save();
             }
-        });
-        $basket->save();
+        });;
+
+        return $basket;
+    }
+
+    public function deleteItemFromBasket(Basket $basket, Item $item): Basket
+    {
+        $basket->contents()->find($item->id)->delete();
 
         return $basket;
     }

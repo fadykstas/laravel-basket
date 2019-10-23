@@ -24,4 +24,6 @@ interface BasketRepositoryInterface
     public function getBasketItemsWeight(Basket $basket): int;
 
     public function addItemsToBasket(Basket $basket, Item ...$items): Basket;
+
+    public function deleteItemFromBasket(Basket $basket, Item $item): Basket;
 }

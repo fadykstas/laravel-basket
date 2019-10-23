@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Basket\RemoveItemFromBasket\RemoveItemFromBasketAction;
+use App\Actions\Basket\RemoveItemFromBasket\RemoveItemFromBasketRequest;
 use App\Actions\Item\AddItemsToBasket\AddItemDTO;
 use App\Actions\Item\AddItemsToBasket\AddItemsToBasketAction;
 use App\Actions\Item\AddItemsToBasket\AddItemsToBasketRequest;
@@ -14,11 +16,14 @@ use Illuminate\Support\Collection;
 class ItemController extends ApiController
 {
     private $addItemsToBasketAction;
+    private $removeItemFromBasketAction;
 
     public function __construct(
-        AddItemsToBasketAction $addItemsToBasketAction
+        AddItemsToBasketAction $addItemsToBasketAction,
+        RemoveItemFromBasketAction $removeItemFromBasketAction
     ) {
         $this->addItemsToBasketAction = $addItemsToBasketAction;
+        $this->removeItemFromBasketAction = $removeItemFromBasketAction;
     }
 
     public function store(Basket $basket, AddItemsToBasketValidateRequest $request)
@@ -39,6 +44,13 @@ class ItemController extends ApiController
 
     public function destroy(Basket $basket, Item $item)
     {
-        //
+        $response = $this->removeItemFromBasketAction->execute(
+            new RemoveItemFromBasketRequest(
+                $basket,
+                $item
+            )
+        );
+
+        return $this->successResponse($response->toArray());
     }
 }
