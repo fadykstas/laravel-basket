@@ -3,8 +3,10 @@
 namespace App\Repositories\EloquentMySql;
 
 
-use App\Entities\Basket;
-use App\Entities\Item;
+use App\Entities\{
+    Basket,
+    Item
+};
 use App\Repositories\Contracts\BasketRepositoryInterface;
 use Illuminate\Support\Collection;
 

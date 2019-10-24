@@ -2,7 +2,6 @@
 
 namespace App\Actions\Basket\GetBasketList;
 
-use App\Http\Resources\BasketJsonPresenter;
 use App\Repositories\Contracts\BasketRepositoryInterface;
 
 class GetBasketListAction
@@ -17,9 +16,8 @@ class GetBasketListAction
 
     public function execute(GetBasketListRequest $basketRequest): GetBasketListResponse
     {;
-        $basketWithContents = $this->basketRepository->findAll();
+        $basketsWithContents = $this->basketRepository->findAll()->all();
 
-        $presenter = BasketJsonPresenter::collection($basketWithContents);
-        return new GetBasketListResponse($presenter->jsonSerialize());
+        return new GetBasketListResponse(...$basketsWithContents);
     }
 }

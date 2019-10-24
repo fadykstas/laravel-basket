@@ -27,6 +27,7 @@ use App\Actions\Basket\RenameBasket\{
     RenameBasketRequest
 };
 use App\Entities\Basket;
+use App\Http\Resources\BasketJsonPresenter;
 use Illuminate\Http\JsonResponse;
 
 class BasketController extends ApiController
@@ -56,8 +57,9 @@ class BasketController extends ApiController
         $response = $this->getBasketListAction->execute(
             new GetBasketListRequest()
         );
+        $presenter = BasketJsonPresenter::collection($response->getBaskets());
 
-        return $this->successResponse($response->toArray());
+        return $this->successResponse($presenter->jsonSerialize());
     }
 
 
@@ -80,8 +82,9 @@ class BasketController extends ApiController
                 $basket
             )
         );
+        $presenter = new BasketJsonPresenter($response->getBasket());
 
-        return $this->successResponse($response->toArray());
+        return $this->successResponse($presenter->jsonSerialize());
     }
 
     public function update(RenameBasketValidateRequest $request, Basket $basket): JsonResponse

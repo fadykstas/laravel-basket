@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Actions\Basket\RemoveItemFromBasket\RemoveItemFromBasketAction;
-use App\Actions\Basket\RemoveItemFromBasket\RemoveItemFromBasketRequest;
-use App\Actions\Item\AddItemsToBasket\AddItemDTO;
-use App\Actions\Item\AddItemsToBasket\AddItemsToBasketAction;
-use App\Actions\Item\AddItemsToBasket\AddItemsToBasketRequest;
-use App\Entities\Basket;
-use App\Entities\Item;
+use App\Actions\Basket\RemoveItemFromBasket\{
+    RemoveItemFromBasketAction,
+    RemoveItemFromBasketRequest
+};
+use App\Actions\Item\AddItemsToBasket\{
+    AddItemDTO,
+    AddItemsToBasketAction,
+    AddItemsToBasketRequest
+};
+use App\Entities\{
+    Basket,
+    Item
+};
 use App\Http\Requests\Item\AddItemsToBasketValidateRequest;
-
+use App\Http\Resources\BasketJsonPresenter;
 use Illuminate\Support\Collection;
 
 class ItemController extends ApiController
@@ -38,8 +44,9 @@ class ItemController extends ApiController
                 ...$itemsDTO
             )
         );
+        $presenter = new BasketJsonPresenter($response->getBasket());
 
-        return $this->successResponse($response->toArray());
+        return $this->successResponse($presenter->jsonSerialize());
     }
 
     public function destroy(Basket $basket, Item $item)

@@ -2,18 +2,20 @@
 
 namespace App\Actions\Basket\GetBasketList;
 
+use App\Entities\Basket;
+use Illuminate\Support\Collection;
 
 class GetBasketListResponse
 {
-    private $array;
+    private $baskets;
 
-    public function __construct(array $array)
+    public function __construct(Basket ...$baskets)
     {
-        $this->array = $array;
+        $this->baskets = Collection::make($baskets);
     }
 
-    public function toArray(): array
+    public function getBaskets(): Collection
     {
-        return $this->array;
+        return $this->baskets;
     }
 }

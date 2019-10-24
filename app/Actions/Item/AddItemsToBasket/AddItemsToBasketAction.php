@@ -3,7 +3,6 @@
 namespace App\Actions\Item\AddItemsToBasket;
 
 use App\Entities\Item;
-use App\Http\Resources\BasketJsonPresenter;
 use App\Repositories\Contracts\{
     BasketRepositoryInterface,
     ItemRepositoryInterface
@@ -53,7 +52,6 @@ class AddItemsToBasketAction
             }
         );
 
-        $presenter = new BasketJsonPresenter($basket);
-        return new AddItemsToBasketResponse($presenter->jsonSerialize());
+        return new AddItemsToBasketResponse($basket);
     }
 }

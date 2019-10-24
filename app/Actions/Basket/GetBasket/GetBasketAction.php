@@ -2,7 +2,6 @@
 
 namespace App\Actions\Basket\GetBasket;
 
-use App\Http\Resources\BasketJsonPresenter;
 use App\Repositories\Contracts\BasketRepositoryInterface;
 
 class GetBasketAction
@@ -20,7 +19,6 @@ class GetBasketAction
         $basket = $basketRequest->getBasket();
         $basketWithContents = $this->basketRepository->getByIdWithRelations($basket->id);
 
-        $presenter = new BasketJsonPresenter($basketWithContents);
-        return new GetBasketResponse($presenter->jsonSerialize());
+        return new GetBasketResponse($basketWithContents);
     }
 }

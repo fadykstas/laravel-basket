@@ -2,18 +2,20 @@
 
 namespace App\Actions\Basket\GetBasket;
 
+use App\Entities\Basket;
+
 
 class GetBasketResponse
 {
-    private $array;
+    private $basket;
 
-    public function __construct(array $array)
+    public function __construct(Basket $basket)
     {
-        $this->array = $array;
+        $this->basket = $basket;
     }
 
-    public function toArray(): array
+    public function getBasket(): Basket
     {
-        return $this->array;
+        return $this->basket;
     }
 }

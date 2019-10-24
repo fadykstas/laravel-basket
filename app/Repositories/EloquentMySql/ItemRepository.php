@@ -4,7 +4,6 @@ namespace App\Repositories\EloquentMySql;
 
 use App\Entities\Item;
 use App\Repositories\Contracts\ItemRepositoryInterface;
-use Illuminate\Support\Collection;
 
 
 class ItemRepository implements ItemRepositoryInterface
@@ -20,7 +19,6 @@ class ItemRepository implements ItemRepositoryInterface
     {
         return Item::find($id);
     }
-
 
     public function deleteById(int $id): void
     {
